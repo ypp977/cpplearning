@@ -1,11 +1,12 @@
 #include "Thread_pool.h"
 #include "Work_thread.h"
+#include <unistd.h>
 
 Thread_pool::Thread_pool(size_t thread_num, size_t queue_capacity)
     : _thread_num(thread_num),
       _queue_capacity(queue_capacity),
       _task_queue(queue_capacity),
-      _is_exiting(true)
+      _is_exit(true)
 {
     _threads.reserve(_thread_num);
 }
@@ -30,16 +31,33 @@ void Thread_pool::start()
         elem->start();
     }
     // 修改线程池状态
-    _is_exiting = false;
+    _is_exit = false;
 }
 
 void Thread_pool::stop()
 {
+    // 判断任务队列是否为空
+    while (_task_queue.empty())
+    {
+        sleep(1);
+    }
+    // 把所有沉睡的线程全部唤醒
+    _task_queue.wake_up();
+    // 遍历关闭线程池
+    for (auto &th : _threads)
+    {
+        th->stop();
+    }
+    // 修改线程池状态
+    _is_exit = true;
 }
 
 void Thread_pool::add_task(Task *task)
 {
-    _task_queue.push(task);
+    if (task)
+    {
+        _task_queue.push(task);
+    }
 }
 
 Task *Thread_pool::get_task()
@@ -47,6 +65,19 @@ Task *Thread_pool::get_task()
     return _task_queue.pop();
 }
 
-void Thread_pool::thread_func()
+// 从任务队列取任务
+// 运行任务
+void Thread_pool::do_task()
 {
+    // 判断线程池是否在运行状态
+    while (!_is_exit)
+    {
+        // 取任务
+        Task *ptask = get_task();
+        if (ptask)
+        {
+            // 任务不为空则运行
+            ptask->process();
+        }
+    }
 }

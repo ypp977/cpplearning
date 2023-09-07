@@ -26,13 +26,13 @@ public:
 private:
     // 获取任务
     Task *get_task();
-    // 线程任务
-    void thread_func();
+    // 做线程任务
+    void do_task();
 
     size_t _thread_num;                  // 线程数量
     size_t _queue_capacity;              // 任务队列最大容量
     vector<unique_ptr<Thread>> _threads; // 存放线程信息
     Task_queue _task_queue;              // 任务队列
-    bool _is_exiting;                    // 线程池状态
+    bool _is_exit;                       // 线程池状态
 };
 #endif

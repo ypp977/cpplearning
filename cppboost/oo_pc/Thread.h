@@ -7,7 +7,7 @@ class Thread
 {
 public:
     Thread();
-    ~Thread();
+    virtual ~Thread() = 0;
     // 线程启动
     void start();
     // 线程停止
@@ -17,7 +17,7 @@ public:
 
 private:
     // 运行
-    virtual void run();
+    virtual void run() = 0;
     bool _is_runing; // 线程状态
     pthread_t _tid;  // 线程id
 };
