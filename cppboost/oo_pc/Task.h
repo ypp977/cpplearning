@@ -3,8 +3,8 @@
 class Task
 {
 public:
-    Task();
-    ~Task();
+    Task() {}
+    virtual ~Task() = 0;
     virtual void process() = 0;
 
 private:
