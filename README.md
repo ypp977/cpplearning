@@ -1,2 +1,2 @@
 # cpplearn
-# test
+# ping
