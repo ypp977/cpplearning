@@ -34,7 +34,7 @@ void Mutex_lock::lock()
 void Mutex_lock::unlock()
 {
     // 解锁
-    int ret = pthread_mutex_lock(&_mutex);
+    int ret = pthread_mutex_unlock(&_mutex);
     if (ret)
     {
         perror("unlock fail");

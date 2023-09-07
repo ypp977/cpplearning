@@ -3,6 +3,7 @@
 
 #include "No_copy.h"
 #include <pthread.h>
+#include <stdio.h>
 
 class Mutex_lock
     : No_copy

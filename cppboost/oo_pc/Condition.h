@@ -1,10 +1,9 @@
 #ifndef __CONDITION_H__
 #define __CONDITION_H__
 
+#include "Mutex_lock.h"
 #include "No_copy.h"
 #include <pthread.h>
-
-class Mutex_lock;
 
 class Condition
     : No_copy

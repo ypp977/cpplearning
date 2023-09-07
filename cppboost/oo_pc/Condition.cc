@@ -3,13 +3,22 @@
 #include <stdio.h>
 
 Condition::Condition(Mutex_lock &mutex)
-    : _mutex(mutex),
-      _cond()
+    : _mutex(mutex)
 {
+    int ret = pthread_cond_init(&_cond, nullptr);
+    if (ret)
+    {
+        perror("init cond");
+    }
 }
 
 Condition::~Condition()
 {
+    int ret = pthread_cond_destroy(&_cond);
+    if (ret)
+    {
+        perror("destory cond");
+    }
 }
 // 等待
 void Condition::wait()

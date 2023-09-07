@@ -8,6 +8,7 @@
 
 using std::queue;
 using Elem_type = Task *;
+
 class Task_queue
 {
 public:

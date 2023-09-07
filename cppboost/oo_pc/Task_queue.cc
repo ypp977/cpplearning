@@ -1,5 +1,4 @@
 #include "Task_queue.h"
-
 #include "Mutex_lock.h"
 
 Task_queue::Task_queue(size_t capacity)
@@ -12,22 +11,26 @@ Task_queue::Task_queue(size_t capacity)
 {
 }
 
-Task_queue::~Task_queue() {}
+Task_queue::~Task_queue()
+{
+}
 // 入队
 void Task_queue::push(const Elem_type &value)
 {
     // 利用RAII技术实现自动上锁解锁
-    Auto_lock al(_mutex);
-    // 循环判满
-    while (full())
     {
-        // 满通知生产者等待
-        _notify_producer.wait();
+        Auto_lock al(_mutex);
+        // 循环判满
+        while (full())
+        {
+            // 满通知生产者等待
+            _notify_producer.wait();
+        }
+        // 不满则push
+        _queue.push(value);
+        // 通知消费者消费
+        _notify_consumer.notify();
     }
-    // 不满则push
-    _queue.push(value);
-    // 通知消费者消费
-    _notify_consumer.notify();
 }
 // 出队
 Elem_type Task_queue::pop()
@@ -40,6 +43,7 @@ Elem_type Task_queue::pop()
         // 空通知消费者等待
         _notify_consumer.wait();
     }
+
     if (_can_sleep)
     {
         // 保存队列头，用于返回出队元素

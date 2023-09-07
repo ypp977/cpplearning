@@ -5,7 +5,7 @@
 Thread_pool::Thread_pool(size_t thread_num, size_t queue_capacity)
     : _thread_num(thread_num),
       _queue_capacity(queue_capacity),
-      _task_queue(queue_capacity),
+      _task_queue(_queue_capacity),
       _is_exit(true)
 {
     _threads.reserve(_thread_num);
@@ -37,10 +37,14 @@ void Thread_pool::start()
 void Thread_pool::stop()
 {
     // 判断任务队列是否为空
-    while (_task_queue.empty())
+    while (!_task_queue.empty())
     {
         sleep(1);
     }
+    // 修改线程池状态
+    // 必须先修改状态，否则被唤醒的线程会被分配新任务
+    // 导致线程无法关闭
+    _is_exit = true;
     // 把所有沉睡的线程全部唤醒
     _task_queue.wake_up();
     // 遍历关闭线程池
@@ -48,8 +52,6 @@ void Thread_pool::stop()
     {
         th->stop();
     }
-    // 修改线程池状态
-    _is_exit = true;
 }
 
 void Thread_pool::add_task(Task *task)
