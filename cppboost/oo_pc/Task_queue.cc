@@ -15,7 +15,7 @@ Task_queue::~Task_queue()
 {
 }
 // 入队
-void Task_queue::push(const Elem_type &value)
+void Task_queue::push(const Elem_type &&value)
 {
     // 利用RAII技术实现自动上锁解锁
     {

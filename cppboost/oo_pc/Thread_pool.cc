@@ -54,11 +54,11 @@ void Thread_pool::stop()
     }
 }
 
-void Thread_pool::add_task(Task *task)
+void Thread_pool::add_task(Task &&task)
 {
-    if (task)
+    if (&task)
     {
-        _task_queue.push(task);
+        _task_queue.push(&task);
     }
 }
 

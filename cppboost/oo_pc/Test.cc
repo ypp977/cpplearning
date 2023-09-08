@@ -29,7 +29,7 @@ void test()
     int cnt = 20;
     while (cnt-- > 0)
     {
-        thread_pool.add_task(ptask.get());
+        thread_pool.add_task(std::move(*(ptask.get())));
         std::cout << "cnt = " << cnt << std::endl;
     }
     // 关闭线程池

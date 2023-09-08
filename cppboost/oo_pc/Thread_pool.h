@@ -21,7 +21,7 @@ public:
     // 关闭线程池
     void stop();
     // 添加任务
-    void add_task(Task *task);
+    void add_task(Task &&task);
 
 private:
     // 获取任务

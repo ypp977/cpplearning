@@ -15,7 +15,7 @@ public:
     Task_queue(size_t capacity);
     ~Task_queue();
     // 入队
-    void push(const Elem_type &value);
+    void push(const Elem_type &&value);
     // 出队
     Elem_type pop();
     // 判空
