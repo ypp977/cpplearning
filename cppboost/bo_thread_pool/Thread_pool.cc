@@ -1,5 +1,5 @@
 #include "Thread_pool.h"
-#include "Work_thread.h"
+#include "Thread.h"
 #include <unistd.h>
 
 Thread_pool::Thread_pool(size_t thread_num, size_t queue_capacity)
@@ -20,8 +20,12 @@ void Thread_pool::start()
     // 遍历新建Work_thread并把线程vector
     for (size_t idx = 0; idx < _thread_num; ++idx)
     {
-        // 新建Work_thread
-        unique_ptr<Thread> th(new Work_thread(*this));
+        // 线程池创建线程并给线程分配任务
+        // 通过使用std::bind函数将Thread_pool::thread_func与当前的Thread_pool对象绑定起来，
+        // 并将绑定后的结果作为回调函数传递给了Thread类的构造函数。
+        // 这样做的目的是在Thread类内部调用Thread_pool对象的成员函数作为回调函数，
+        // 实现了回调的功能
+        unique_ptr<Thread> th(new Thread(std::bind(&Thread_pool::thread_func, this)));
         // 放进vector中
         _threads.push_back(std::move(th));
     }
@@ -53,33 +57,36 @@ void Thread_pool::stop()
         th->stop();
     }
 }
-
+// 此处的形参使用移动语义
+// 这样做的好处是提高了效率，
+// 并且在某些情况下可以避免不必要的资源消耗
 void Thread_pool::add_task(Task &&task)
 {
-    if (&task)
+    if (task)
     {
-        _task_queue.push(&task);
+        _task_queue.push(std::move(task));
     }
 }
 
-Task *Thread_pool::get_task()
+Task Thread_pool::get_task()
 {
     return _task_queue.pop();
 }
 
 // 从任务队列取任务
 // 运行任务
-void Thread_pool::do_task()
+void Thread_pool::thread_func()
 {
     // 判断线程池是否在运行状态
+    // 处于运行状态子线程就会一直做任务
     while (!_is_exit)
     {
         // 取任务
-        Task *ptask = get_task();
-        if (ptask)
+        Task task_call_back = get_task();
+        if (task_call_back)
         {
             // 任务不为空则运行
-            ptask->process();
+            task_call_back();
         }
     }
 }

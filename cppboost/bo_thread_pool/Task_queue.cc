@@ -15,6 +15,9 @@ Task_queue::~Task_queue()
 {
 }
 // 入队
+// 此处的形参使用移动语义
+// 这样做的好处是提高了效率，
+// 并且在某些情况下可以避免不必要的资源消耗
 void Task_queue::push(const Elem_type &&value)
 {
     // 利用RAII技术实现自动上锁解锁
