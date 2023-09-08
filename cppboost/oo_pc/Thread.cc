@@ -34,14 +34,11 @@ void Thread::start()
 // 线程停止
 void Thread::stop()
 {
-    printf("thread stop\n");
     // 判断线程是否正在运行
     if (_is_runing)
     {
-        printf("thread stop come\n");
         // 等待子线程关闭
         int ret = pthread_join(_tid, nullptr);
-        printf("thread stop ret = %d\n", ret);
         if (ret)
         {
             perror("thread stop fail");
