@@ -14,15 +14,21 @@ class Task_queue
 {
 public:
     Task_queue(size_t capacity);
+
     ~Task_queue();
+
     // 入队
     void push(const Elem_type &&value);
+
     // 出队
     Elem_type pop();
+
     // 判空
     bool empty() const;
+
     // 判满
     bool full() const;
+
     // 唤醒沉睡进程
     void wake_up();
 

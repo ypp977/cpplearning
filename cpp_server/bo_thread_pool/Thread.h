@@ -13,9 +13,12 @@ class Thread
 {
 public:
     Thread(Thread_callback &&cb);
+
     ~Thread();
+
     // 线程启动
     void start();
+
     // 线程停止
     void stop();
 
@@ -29,6 +32,7 @@ private:
     // 如果thread_func不是一个静态成员函数，那么thread_func就有一个隐含的this指针
     // 就与pthread_create函数的参数形态不一致
     static void *thread_func(void *args);
+
     bool _is_runing;            // 线程状态
     pthread_t _tid;             // 线程id
     Thread_callback _call_back; // 线程执行的任务

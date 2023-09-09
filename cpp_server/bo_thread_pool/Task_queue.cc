@@ -14,6 +14,7 @@ Task_queue::Task_queue(size_t capacity)
 Task_queue::~Task_queue()
 {
 }
+
 // 入队
 // 此处的形参使用移动语义
 // 这样做的好处是提高了效率，
@@ -35,6 +36,7 @@ void Task_queue::push(const Elem_type &&value)
         _notify_consumer.notify();
     }
 }
+
 // 出队
 Elem_type Task_queue::pop()
 {
@@ -63,11 +65,13 @@ Elem_type Task_queue::pop()
         return nullptr;
     }
 }
+
 // 判空
 bool Task_queue::empty() const
 {
     return 0 == _queue.size();
 }
+
 // 判满
 bool Task_queue::full() const
 {

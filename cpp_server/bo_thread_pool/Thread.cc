@@ -23,6 +23,7 @@ Thread::~Thread()
         }
     }
 }
+
 // 线程启动
 void Thread::start()
 {
@@ -37,6 +38,7 @@ void Thread::start()
     // 修改线程运行状态
     _is_runing = true;
 }
+
 // 线程停止
 void Thread::stop()
 {
@@ -54,6 +56,7 @@ void Thread::stop()
         _is_runing = false;
     }
 }
+
 // 线程函数
 void *Thread::thread_func(void *args)
 {

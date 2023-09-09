@@ -16,11 +16,15 @@ class Thread_pool
 {
 public:
     Thread_pool(size_t thread_num, size_t queue_capacity);
+
     ~Thread_pool();
+
     // 启动线程池
     void start();
+
     // 关闭线程池
     void stop();
+
     // 添加任务
     // 此处的形参使用移动语义
     // 这样做的好处是提高了效率，
@@ -30,6 +34,7 @@ public:
 private:
     // 获取任务
     Task get_task();
+
     // 做线程任务
     void thread_func();
 

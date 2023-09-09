@@ -11,6 +11,7 @@ Mutex_lock::Mutex_lock()
         return;
     }
 }
+
 Mutex_lock::~Mutex_lock()
 {
     // 销毁锁
@@ -31,6 +32,7 @@ void Mutex_lock::lock()
         perror("lock fail");
     }
 }
+
 void Mutex_lock::unlock()
 {
     // 解锁
@@ -40,6 +42,7 @@ void Mutex_lock::unlock()
         perror("unlock fail");
     }
 }
+
 void Mutex_lock::try_lock()
 {
     // 尝试上锁
@@ -49,6 +52,7 @@ void Mutex_lock::try_lock()
         perror("try_lock fail");
     }
 }
+
 // 获取锁的裸指针
 pthread_mutex_t *Mutex_lock::get_lock_ptr()
 {
