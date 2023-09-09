@@ -12,6 +12,7 @@ public:
         : _thread_pool(thread_pool)
     {
     }
+
     ~Work_thread()
     {
     }

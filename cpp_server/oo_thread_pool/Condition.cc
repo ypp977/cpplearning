@@ -20,6 +20,7 @@ Condition::~Condition()
         perror("destory cond");
     }
 }
+
 // 等待
 void Condition::wait()
 {
@@ -30,6 +31,7 @@ void Condition::wait()
         return;
     }
 }
+
 // 通知
 void Condition::notify()
 {
@@ -40,6 +42,7 @@ void Condition::notify()
         return;
     }
 }
+
 // 通知所有
 void Condition::notify_all()
 {

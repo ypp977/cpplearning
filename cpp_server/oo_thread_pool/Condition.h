@@ -10,11 +10,15 @@ class Condition
 {
 public:
     Condition(Mutex_lock &mutex);
+
     ~Condition();
+
     // 等待
     void wait();
+
     // 通知
     void notify();
+
     // 通知所有
     void notify_all();
 
