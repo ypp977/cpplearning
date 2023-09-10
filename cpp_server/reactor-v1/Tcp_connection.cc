@@ -39,9 +39,29 @@ void Tcp_connection::print_coninfo()
 // 获取本地地址
 Inet_address Tcp_connection::get_local_addr()
 {
+    struct sockaddr_in local_addr;
+    socklen_t len = sizeof(struct sockaddr);
+
+    int ret = getsockname(_sock.fd(), (struct sockaddr *)&local_addr, &len);
+    if (-1 == ret)
+    {
+        perror("get_local_addr fail");
+    }
+
+    return Inet_address(local_addr);
 }
 
 // 获取对端地址
 Inet_address Tcp_connection::get_peer_addr()
 {
+    struct sockaddr_in peer_addr;
+    socklen_t len = sizeof(struct sockaddr);
+
+    int ret = getpeername(_sock.fd(), (struct sockaddr *)&peer_addr, &len);
+    if (-1 == ret)
+    {
+        perror("get_peer_addr fail");
+    }
+
+    return Inet_address(peer_addr);
 }
