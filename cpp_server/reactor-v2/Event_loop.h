@@ -13,10 +13,11 @@ using std::map;
 using std::shared_ptr;
 using std::vector;
 
+using tcp_connection_ptr = std::shared_ptr<Tcp_connection>;
+using tcp_connection_callback = std::function<void(const tcp_connection_ptr &)>;
+
 class Event_loop
 {
-    using tcp_connection_ptr = std::shared_ptr<Tcp_connection>;
-    using tcp_connection_callback = std::function<void(const tcp_connection_ptr &)>;
 
 public:
     Event_loop(Acceptor &acceptor);

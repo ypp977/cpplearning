@@ -5,7 +5,6 @@
 
 using std::cout;
 using std::endl;
-using tcp_connection_ptr = std::shared_ptr<Tcp_connection>;
 
 void on_new_connection(const tcp_connection_ptr &new_connection)
 {
